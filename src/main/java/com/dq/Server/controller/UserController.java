@@ -1,7 +1,7 @@
 package com.dq.Server.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dq.Msg;
+import com.dq.Server.Entity.Msg;
 import com.dq.Server.Entity.ListDto;
 import com.dq.Server.Entity.User;
 

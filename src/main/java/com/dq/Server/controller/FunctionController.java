@@ -1,11 +1,10 @@
 package com.dq.Server.controller;
 
-import com.dq.FunctionType;
+import com.dq.Server.Entity.FunctionType;
 import com.dq.Server.function.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class FunctionController {
     private static Map<Integer,Class> functionMenu=new HashMap<>();

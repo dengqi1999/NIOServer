@@ -1,14 +1,9 @@
 package com.dq.Server.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.dq.FunctionType;
-import com.dq.Msg;
+import com.dq.Server.Entity.Msg;
 import com.dq.Server.Entity.Group;
 import com.dq.Server.Entity.User;
-import com.dq.Server.function.Function;
-import com.sun.java.swing.plaf.windows.WindowsTextAreaUI;
 
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GroupController {

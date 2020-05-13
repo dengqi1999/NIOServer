@@ -1,7 +1,6 @@
 package com.dq.Server.function;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dq.FunctionType;
 
 import java.nio.channels.SelectionKey;
 

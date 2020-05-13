@@ -1,8 +1,8 @@
 package com.dq.Server.function;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dq.FunctionType;
-import com.dq.Msg;
+import com.dq.Server.Entity.FunctionType;
+import com.dq.Server.Entity.Msg;
 import com.dq.Server.controller.UserController;
 
 import java.io.IOException;

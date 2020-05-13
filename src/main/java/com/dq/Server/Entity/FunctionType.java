@@ -1,4 +1,4 @@
-package com.dq;
+package com.dq.Server.Entity;
 
 public enum FunctionType {
     SINGLE_CHART(1,"一对一单聊"),

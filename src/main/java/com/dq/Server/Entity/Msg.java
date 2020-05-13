@@ -1,4 +1,4 @@
-package com.dq;
+package com.dq.Server.Entity;
 
 public class Msg<T> {
 	Integer code;
