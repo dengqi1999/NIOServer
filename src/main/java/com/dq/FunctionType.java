@@ -1,7 +1,11 @@
 package com.dq;
 
 public enum FunctionType {
-    SINGLE_CHART(1,"一对一单聊"),PEOPLE_CHART(2,"多人群聊"),FILE(3,"文件功能"),QUIT(4,"退出功能"),LOGIN(5,"退出功能");
+    SINGLE_CHART(1,"一对一单聊"),
+    PEOPLE_CHART(2,"多人群聊"),
+    FILE(3,"文件功能"),
+    QUIT(4,"退出功能"),
+    LOGIN(5,"登录功能");
     int code;
     String msg;
 

@@ -6,12 +6,8 @@ import com.dq.FunctionType;
 import java.nio.channels.SelectionKey;
 
 public class Function implements Runnable{
-    private FunctionType functionType;
     private SelectionKey key;
     private JSONObject object;
-    public Function(FunctionType functionType){
-        this.functionType=functionType;
-    }
 
     public JSONObject getObject() {
         return object;
@@ -27,10 +23,6 @@ public class Function implements Runnable{
 
     public SelectionKey getKey() {
         return key;
-    }
-
-    public FunctionType getFunctionType() {
-        return functionType;
     }
 
     @Override

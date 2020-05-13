@@ -1,10 +1,20 @@
 package com.dq;
 
-public class Msg {
+public class Msg<T> {
 	Integer code;
 	Integer fromId;
 	Integer toId;
 	String msg;
+	T data;
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
 	public Integer getCode() {
 		return code;
 	}

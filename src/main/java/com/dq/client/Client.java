@@ -3,6 +3,7 @@ package com.dq.client;
 import com.alibaba.fastjson.JSONObject;
 import com.dq.FunctionType;
 import com.dq.Msg;
+import com.dq.client.Entity.User;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
@@ -16,13 +17,14 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.List;
 
 public class Client {
     public static final int DEFAULT_BUFFER_SIZE = 1024;
     private Selector selector;
     private SocketChannel clientChannel;
     private ByteBuffer buf;
-    private String username;
+    private User user;
     private boolean isLogin = false;
     private boolean isConnected = false;
     private ReceiverHandler listener;
@@ -68,13 +70,15 @@ public class Client {
         Msg msg=new Msg();
         msg.setCode(FunctionType.LOGIN.getCode());
         msg.setFromId(Integer.valueOf(username));
-        msg.setMsg(username+password);
+        msg.setMsg(password);
         try {
             clientChannel.write(ByteBuffer.wrap(JSONObject.toJSONString(msg).getBytes()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.username = username;
+        this.user = new User();
+        user.setId(Integer.valueOf(username));
+        user.setPassword(password);
     }
     public void logout() {
         if (!isLogin) {
@@ -83,7 +87,7 @@ public class Client {
         System.out.println("客户端发送下线请求");
         Msg msg=new Msg();
         msg.setCode(FunctionType.QUIT.getCode());
-        msg.setFromId(Integer.valueOf(username));
+        msg.setFromId(user.getId());
         try {
             clientChannel.write(ByteBuffer.wrap(JSONObject.toJSONString(msg).getBytes()));
         } catch (IOException e) {
@@ -91,20 +95,21 @@ public class Client {
         }
     }
     /**
-     * 发送信息，监听在回车键上
+     * 发送信息
      *
      * @param content
      */
-    public void sendSingle(String content,String toId) {
-        if (!isLogin) {
+    public void sendSingle(String content,Integer toId) {
+        /*if (!isLogin) {
             JOptionPane.showMessageDialog(null, "尚未登录");
             return;
-        }
+        }*/
         try {
             Msg msg=new Msg();
             msg.setCode(FunctionType.SINGLE_CHART.getCode());
-            msg.setFromId(Integer.valueOf(username));
-            msg.setToId(Integer.valueOf(toId));
+            msg.setFromId(user.getId());
+            msg.setToId(toId);
+            msg.setMsg(content);
             clientChannel.write(ByteBuffer.wrap(JSONObject.toJSONString(msg).getBytes()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,7 +149,32 @@ public class Client {
                                 data.setIsLeft(true);
                                 chart.listModel.addElement(data);
                             }else if(object.getInteger("code")==FunctionType.LOGIN.getCode()){
+                                if(object.getString("msg").equals("登录成功")){
+                                    if(object.get("fromId")==null){
+                                        JOptionPane.showMessageDialog(null, "登录成功");
+                                        List<JSONObject> list= (List<JSONObject>) object.get("data");
+                                        for(JSONObject u:list){
+                                            if(u.getInteger("id")==user.getId()){
+                                                user.setName(u.getString("name"));
+                                                continue;
+                                            }
+                                            User nUser=new User();
+                                            nUser.setId(u.getInteger("id"));
+                                            nUser.setName(u.getString("name"));
+                                            chart.listModelUser.addElement(nUser);
+                                        }
+                                    }else{
+                                        JSONObject n=object.getJSONObject("data");
+                                        User nUser=new User();
+                                        nUser.setId(n.getInteger("id"));
+                                        nUser.setName(n.getString("name"));
+                                        chart.listModelUser.addElement(nUser);
+                                    }
 
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "登录失败");
+                                    System.exit(0);
+                                }
                             }else if(object.getInteger("code")==FunctionType.QUIT.getCode()){
 
                             }
