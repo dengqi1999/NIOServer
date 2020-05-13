@@ -1,5 +1,6 @@
 package com.dq.Server.function;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dq.Server.Entity.FunctionType;
 import com.dq.Server.Entity.Msg;
 import com.dq.Server.Server;
@@ -8,16 +9,14 @@ import com.dq.Server.controller.UserController;
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 
-public class Quit extends Function{
+public class Quit implements MyFunction{
 
-    @Override
-    public void run(){
-        SelectionKey key=getKey();
+    public void run(SelectionKey key, JSONObject object){
         Msg msg=new Msg();
         msg.setCode(FunctionType.QUIT.getCode());
         msg.setMsg("quit");
         //设置消息发送人
-        msg.setFromId(getObject().getInteger("fromId"));
+        msg.setFromId(object.getInteger("fromId"));
         //对所有在线成员发送下线消息
         try {
             UserController.sendToAllUser(msg,msg.getFromId());

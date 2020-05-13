@@ -7,11 +7,8 @@ import com.dq.Server.controller.GroupController;
 
 import java.nio.channels.SelectionKey;
 
-public class PeopleChart extends Function{
-    @Override
-    public void run(){
-        SelectionKey key=getKey();
-        JSONObject object=getObject();
+public class PeopleChart implements MyFunction{
+    public void run(SelectionKey key,JSONObject object){
         Msg msg=new Msg();
         msg.setCode(FunctionType.PEOPLE_CHART.getCode());
         msg.setFromId(object.getInteger("toId"));

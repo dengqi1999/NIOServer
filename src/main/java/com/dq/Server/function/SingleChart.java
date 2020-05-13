@@ -8,16 +8,12 @@ import com.dq.Server.controller.UserController;
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 
-public class SingleChart extends Function{
+public class SingleChart implements MyFunction{
 
     public SingleChart(){
     }
 
-    @Override
-    public void run() {
-        SelectionKey key=getKey();
-        JSONObject object=getObject();
-
+    public void run(SelectionKey key,JSONObject object) {
         Msg msg=new Msg();
         msg.setFromId(object.getInteger("fromId"));
         msg.setCode(FunctionType.SINGLE_CHART.getCode());

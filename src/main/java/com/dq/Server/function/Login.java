@@ -13,16 +13,15 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.List;
 
-public class Login extends Function{
+public class Login implements MyFunction{
     public Login() {
     }
 
-    @Override
-    public void run(){
-        SelectionKey key=getKey();
+    public void run(SelectionKey key,JSONObject object){
+
         User user=new User();
-        user.setId(getObject().getInteger("fromId"));
-        user.setPassword(getObject().getString("msg"));
+        user.setId(object.getInteger("fromId"));
+        user.setPassword(object.getString("msg"));
         try {
             if(UserController.login(user,key)){
                 Msg msg=new Msg();
@@ -45,7 +44,7 @@ public class Login extends Function{
                 msg.setMsg("fail");
                 ((SocketChannel)key.channel()).write(ByteBuffer.wrap(JSONObject.toJSONString(msg).getBytes()));
             }
-        } catch (IOException e) {
+        } catch (IOException e) {//发生通道写错误。执行用户引用清空
             Server.pool.execute(new CleanOnlineUser());
             e.printStackTrace();
         }
