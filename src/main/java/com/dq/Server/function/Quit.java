@@ -12,6 +12,7 @@ import java.nio.channels.SelectionKey;
 public class Quit implements MyFunction{
 
     public void run(SelectionKey key, JSONObject object){
+        //System.out.println("用户退出");
         Msg msg=new Msg();
         msg.setCode(FunctionType.QUIT.getCode());
         msg.setMsg("quit");

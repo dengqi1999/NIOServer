@@ -46,7 +46,7 @@ public class Server {
             //加入到selector中
             serverChannel.configureBlocking(false);
             serverKey = serverChannel.register(selector, SelectionKey.OP_ACCEPT);
-            System.out.println("=======NIOServer已经启动=====");
+            System.out.println("=======NIOServer已经启动======");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,8 +62,11 @@ public class Server {
                     while(iterator.hasNext()){
                         SelectionKey key = iterator.next();
                         iterator.remove();
+                        if(key.attachment()!=null&&((ReceiveStructure)key.attachment()).isProcessed){
+                            continue;
+                        }
                         //若此key的通道是等待接受新的套接字连接
-                        if(key.isAcceptable()){
+                        if(key.isValid() &&key.isAcceptable()){
                             System.out.println(key.toString() + " : 接收");
                             ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
                             //接受socket
@@ -78,6 +81,7 @@ public class Server {
                             Function function=new Function();
                             function.setKey(key);
                             pool.execute(function);
+                            ((ReceiveStructure)key.attachment()).isProcessed=true;
                         }
                     }
                 }
